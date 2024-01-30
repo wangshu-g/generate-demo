@@ -1,0 +1,41 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: test
+  profiles:
+    active: dev
+  threads:
+    virtual:
+      enabled: true
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+  main:
+    allow-circular-references: true
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test
+    username: root
+    password: root
+
+mybatis:
+  configuration:
+    cache-enabled: true
+    map-underscore-to-camel-case: true
+    call-setters-on-nulls: true
+  mapper-locations:
+    - classpath:mapper/*.xml
+    - classpath:test-public-module-mapper/*.xml
+
+logging:
+  level:
+    java.sql: debug
+    javax.sql: debug
+    com.test.mapper: debug
