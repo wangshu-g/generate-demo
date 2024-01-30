@@ -28,13 +28,13 @@ public class ArticleGroup extends BaseModel {
     @Column(title = "删除时间", conditions = {Condition.all})
     private Date deletedAt;
 
-    @Column(conditions = {Condition.all}, title = "分组名称", comment = "分组名称", keyword = true)
+    @Column(title = "分组名称", conditions = {Condition.all}, keyword = true)
     private String groupName;
 
-    @Column(conditions = {Condition.all}, title = "描述", comment = "描述", keyword = true)
+    @Column(title = "描述", conditions = {Condition.all}, keyword = true)
     private String desc;
 
-    @Column(conditions = {Condition.all}, title = "创建者", comment = "创建者")
+    @Column(title = "创建者", conditions = {Condition.all})
     private String uid;
 
     @JOIN(rightJoinField = "uid")

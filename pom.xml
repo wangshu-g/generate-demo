@@ -15,7 +15,7 @@
 
     <groupId>com.ws</groupId>
 
-    <artifactId>ws-generate-demo</artifactId>
+    <artifactId>ws-generate-test-example</artifactId>
 
     <version>1.0-SNAPSHOT</version>
 

@@ -27,10 +27,10 @@ public class User extends BaseModel {
     @Column(title = "删除时间", conditions = {Condition.all})
     private Date deletedAt;
 
-    @Column(conditions = {Condition.all}, title = "昵称", comment = "昵称", keyword = true)
+    @Column(title = "昵称", conditions = {Condition.all}, keyword = true)
     private String name;
 
-    @Column(conditions = {Condition.all}, title = "自述", comment = "自述", keyword = true)
+    @Column(title = "自述", conditions = {Condition.all}, keyword = true)
     private String readMe;
 
 }

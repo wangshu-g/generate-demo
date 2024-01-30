@@ -13,7 +13,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @lombok.Data
-@Data(title = "文章标签", modelDefaultKeyword = "title")
+@Data(title = "文章标签", modelDefaultKeyword = "tagName")
 public class ArticleTag extends BaseModel {
 
     @Column(title = "ID", conditions = {Condition.all}, primary = true)
@@ -28,7 +28,7 @@ public class ArticleTag extends BaseModel {
     @Column(title = "删除时间", conditions = {Condition.all})
     private Date deletedAt;
 
-    @Column(title = "标签名称", conditions = {Condition.all})
+    @Column(title = "标签名称", conditions = {Condition.all}, keyword = true)
     private String tagName;
 
     @Column(title = "所属文章", conditions = {Condition.all})

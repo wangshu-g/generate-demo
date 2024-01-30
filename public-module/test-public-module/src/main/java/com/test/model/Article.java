@@ -29,22 +29,25 @@ public class Article extends BaseModel {
     @Column(title = "删除时间", conditions = {Condition.all})
     private Date deletedAt;
 
-    @Column(conditions = {Condition.all}, title = "文章标题", comment = "文章标题", keyword = true)
+    @Column(conditions = {Condition.all}, title = "文章标题", keyword = true)
     private String title;
 
-    @Column(conditions = {Condition.all}, title = "描述", comment = "描述", keyword = true)
+    @Column(conditions = {Condition.all}, title = "描述", keyword = true)
     private String desc;
 
-    @Column(conditions = {Condition.all}, title = "状态", comment = "状态")
+    @Column(conditions = {Condition.all}, title = "文章详情", jdbcType = "longtext")
+    private String detail;
+
+    @Column(conditions = {Condition.all}, title = "状态")
     private String status;
 
-    @Column(conditions = {Condition.all}, title = "发布者", comment = "发布者")
+    @Column(conditions = {Condition.all}, title = "发布者")
     private String uid;
 
     @JOIN(rightJoinField = "uid")
     private User user;
 
-    @Column(conditions = {Condition.all}, title = "文章所属分组", comment = "文章所属分组")
+    @Column(conditions = {Condition.all}, title = "文章所属分组")
     private String groupId;
 
     @JOIN(rightJoinField = "groupId")
