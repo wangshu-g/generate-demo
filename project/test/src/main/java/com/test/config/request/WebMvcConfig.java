@@ -3,6 +3,7 @@ package com.test.config.request;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.test.config.request.inteceptor.LogInterceptor;
 import com.ws.filter.FastJsonValueFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -13,9 +14,11 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
+
 @Slf4j
 @Configuration
 @ControllerAdvice
@@ -36,13 +39,17 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LogInterceptor());
+    }
+
+    @Override
     public void addCorsMappings(@NotNull CorsRegistry corsRegistry) {
-        corsRegistry
-                .addMapping("/**")
+        corsRegistry.addMapping("/**")
+                .allowCredentials(true)
                 .allowedOriginPatterns("*")
-                .allowedMethods("POST", "GET", "PUT", "OPTIONS", "DELETE")
-                .maxAge(3600)
-                .allowCredentials(true);
+                .allowedMethods("*")
+                .allowedHeaders("*");
     }
 
     @Override

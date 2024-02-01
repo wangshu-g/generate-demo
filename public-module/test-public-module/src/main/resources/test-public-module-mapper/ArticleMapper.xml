@@ -9,6 +9,7 @@
     <result column="deletedAt" jdbcType="TIMESTAMP" property="deletedAt"/>
     <result column="title" jdbcType="VARCHAR" property="title"/>
     <result column="desc" jdbcType="VARCHAR" property="desc"/>
+    <result column="detail" jdbcType="VARCHAR" property="detail"/>
     <result column="status" jdbcType="VARCHAR" property="status"/>
     <result column="uid" jdbcType="VARCHAR" property="uid"/>
     <result column="groupId" jdbcType="VARCHAR" property="groupId"/>
@@ -40,13 +41,13 @@
   </resultMap>
  
   <insert id="save" parameterType="Map" useGeneratedKeys="true" keyProperty="id">
-insert into article(`id`,`createdAt`,`updatedAt`,`deletedAt`,`title`,`desc`,`status`,`uid`,`groupId`) values (#{id},#{createdAt},#{updatedAt},#{deletedAt},#{title},#{desc},#{status},#{uid},#{groupId});
+insert into article(`id`,`createdAt`,`updatedAt`,`deletedAt`,`title`,`desc`,`detail`,`status`,`uid`,`groupId`) values (#{id},#{createdAt},#{updatedAt},#{deletedAt},#{title},#{desc},#{detail},#{status},#{uid},#{groupId});
 </insert>
  
   <insert id="batchSave" parameterType="List" useGeneratedKeys="true" keyProperty="id">
-insert into article(`id`,`createdAt`,`updatedAt`,`deletedAt`,`title`,`desc`,`status`,`uid`,`groupId`) values
+insert into article(`id`,`createdAt`,`updatedAt`,`deletedAt`,`title`,`desc`,`detail`,`status`,`uid`,`groupId`) values
  
-    <foreach collection="list" item="item" index="index" separator=",">(#{item.id},#{item.createdAt},#{item.updatedAt},#{item.deletedAt},#{item.title},#{item.desc},#{item.status},#{item.uid},#{item.groupId})</foreach>
+    <foreach collection="list" item="item" index="index" separator=",">(#{item.id},#{item.createdAt},#{item.updatedAt},#{item.deletedAt},#{item.title},#{item.desc},#{item.detail},#{item.status},#{item.uid},#{item.groupId})</foreach>
   </insert>
  
   <delete id="delete" parameterType="Map">
@@ -130,6 +131,19 @@ and `article`.`desc` in
       </if>
       <if test="descIsNull != null">and `article`.`desc` is null</if>
       <if test="descIsNotNull != null">and `article`.`desc` is not null</if>
+      <if test="detail != null">and `article`.`detail` = #{detail}</if>
+      <if test="detailLess != null">and `article`.`detail` &lt; #{detailLess}</if>
+      <if test="detailGreat != null">and `article`.`detail` &gt; #{detailGreat}</if>
+      <if test="detailLike != null">and instr(`article`.`detail`,#{detailLike})</if>
+      <if test="detailIn != null">
+and `article`.`detail` in
+ 
+        <foreach collection="detailIn" item="detailInItem" index="index" open="(" close=")" separator=",">
+#{detailInItem}
+</foreach>
+      </if>
+      <if test="detailIsNull != null">and `article`.`detail` is null</if>
+      <if test="detailIsNotNull != null">and `article`.`detail` is not null</if>
       <if test="status != null">and `article`.`status` = #{status}</if>
       <if test="statusLess != null">and `article`.`status` &lt; #{statusLess}</if>
       <if test="statusGreat != null">and `article`.`status` &gt; #{statusGreat}</if>
@@ -248,6 +262,19 @@ or `article`.`desc` in
         </if>
         <if test="descOrIsNull != null">or `article`.`desc` is null</if>
         <if test="descOrIsNotNull != null">or `article`.`desc` is not null</if>
+        <if test="detailOrEqual != null">or `article`.`detail` = #{detailOrEqual}</if>
+        <if test="detailOrLess != null">or `article`.`detail` &lt; #{detailOrLess}</if>
+        <if test="detailOrGreat != null">or `article`.`detail` &gt; #{detailOrGreat}</if>
+        <if test="detailOrLike != null">or instr(`article`.`detail`,#{detailOrLike})</if>
+        <if test="detailOrIn != null">
+or `article`.`detail` in
+ 
+          <foreach collection="detailOrIn" item="detailOrInItem" index="index" open="(" close=")" separator=",">
+#{detailOrInItem}
+</foreach>
+        </if>
+        <if test="detailOrIsNull != null">or `article`.`detail` is null</if>
+        <if test="detailOrIsNotNull != null">or `article`.`detail` is not null</if>
         <if test="statusOrEqual != null">or `article`.`status` = #{statusOrEqual}</if>
         <if test="statusOrLess != null">or `article`.`status` &lt; #{statusOrLess}</if>
         <if test="statusOrGreat != null">or `article`.`status` &gt; #{statusOrGreat}</if>
@@ -307,6 +334,8 @@ update article
       <if test="setTitleNull != null">`title` = null,</if>
       <if test="newDesc != null">`desc` = #{newDesc},</if>
       <if test="setDescNull != null">`desc` = null,</if>
+      <if test="newDetail != null">`detail` = #{newDetail},</if>
+      <if test="setDetailNull != null">`detail` = null,</if>
       <if test="newStatus != null">`status` = #{newStatus},</if>
       <if test="setStatusNull != null">`status` = null,</if>
       <if test="newUid != null">`uid` = #{newUid},</if>
@@ -393,6 +422,19 @@ and `article`.`desc` in
       </if>
       <if test="descIsNull != null">and `article`.`desc` is null</if>
       <if test="descIsNotNull != null">and `article`.`desc` is not null</if>
+      <if test="detail != null">and `article`.`detail` = #{detail}</if>
+      <if test="detailLess != null">and `article`.`detail` &lt; #{detailLess}</if>
+      <if test="detailGreat != null">and `article`.`detail` &gt; #{detailGreat}</if>
+      <if test="detailLike != null">and instr(`article`.`detail`,#{detailLike})</if>
+      <if test="detailIn != null">
+and `article`.`detail` in
+ 
+        <foreach collection="detailIn" item="detailInItem" index="index" open="(" close=")" separator=",">
+#{detailInItem}
+</foreach>
+      </if>
+      <if test="detailIsNull != null">and `article`.`detail` is null</if>
+      <if test="detailIsNotNull != null">and `article`.`detail` is not null</if>
       <if test="status != null">and `article`.`status` = #{status}</if>
       <if test="statusLess != null">and `article`.`status` &lt; #{statusLess}</if>
       <if test="statusGreat != null">and `article`.`status` &gt; #{statusGreat}</if>
@@ -511,6 +553,19 @@ or `article`.`desc` in
         </if>
         <if test="descOrIsNull != null">or `article`.`desc` is null</if>
         <if test="descOrIsNotNull != null">or `article`.`desc` is not null</if>
+        <if test="detailOrEqual != null">or `article`.`detail` = #{detailOrEqual}</if>
+        <if test="detailOrLess != null">or `article`.`detail` &lt; #{detailOrLess}</if>
+        <if test="detailOrGreat != null">or `article`.`detail` &gt; #{detailOrGreat}</if>
+        <if test="detailOrLike != null">or instr(`article`.`detail`,#{detailOrLike})</if>
+        <if test="detailOrIn != null">
+or `article`.`detail` in
+ 
+          <foreach collection="detailOrIn" item="detailOrInItem" index="index" open="(" close=")" separator=",">
+#{detailOrInItem}
+</foreach>
+        </if>
+        <if test="detailOrIsNull != null">or `article`.`detail` is null</if>
+        <if test="detailOrIsNotNull != null">or `article`.`detail` is not null</if>
         <if test="statusOrEqual != null">or `article`.`status` = #{statusOrEqual}</if>
         <if test="statusOrLess != null">or `article`.`status` &lt; #{statusOrLess}</if>
         <if test="statusOrGreat != null">or `article`.`status` &gt; #{statusOrGreat}</if>
@@ -562,6 +617,7 @@ select
 `article`.`deletedAt`,
 `article`.`title`,
 `article`.`desc`,
+`article`.`detail`,
 `article`.`status`,
 `article`.`uid`,
 `article`.`groupId`,
@@ -668,6 +724,19 @@ and `article`.`desc` in
       </if>
       <if test="descIsNull != null">and `article`.`desc` is null</if>
       <if test="descIsNotNull != null">and `article`.`desc` is not null</if>
+      <if test="detail != null">and `article`.`detail` = #{detail}</if>
+      <if test="detailLess != null">and `article`.`detail` &lt; #{detailLess}</if>
+      <if test="detailGreat != null">and `article`.`detail` &gt; #{detailGreat}</if>
+      <if test="detailLike != null">and instr(`article`.`detail`,#{detailLike})</if>
+      <if test="detailIn != null">
+and `article`.`detail` in
+ 
+        <foreach collection="detailIn" item="detailInItem" index="index" open="(" close=")" separator=",">
+#{detailInItem}
+</foreach>
+      </if>
+      <if test="detailIsNull != null">and `article`.`detail` is null</if>
+      <if test="detailIsNotNull != null">and `article`.`detail` is not null</if>
       <if test="status != null">and `article`.`status` = #{status}</if>
       <if test="statusLess != null">and `article`.`status` &lt; #{statusLess}</if>
       <if test="statusGreat != null">and `article`.`status` &gt; #{statusGreat}</if>
@@ -1033,6 +1102,19 @@ or `article`.`desc` in
         </if>
         <if test="descOrIsNull != null">or `article`.`desc` is null</if>
         <if test="descOrIsNotNull != null">or `article`.`desc` is not null</if>
+        <if test="detailOrEqual != null">or `article`.`detail` = #{detailOrEqual}</if>
+        <if test="detailOrLess != null">or `article`.`detail` &lt; #{detailOrLess}</if>
+        <if test="detailOrGreat != null">or `article`.`detail` &gt; #{detailOrGreat}</if>
+        <if test="detailOrLike != null">or instr(`article`.`detail`,#{detailOrLike})</if>
+        <if test="detailOrIn != null">
+or `article`.`detail` in
+ 
+          <foreach collection="detailOrIn" item="detailOrInItem" index="index" open="(" close=")" separator=",">
+#{detailOrInItem}
+</foreach>
+        </if>
+        <if test="detailOrIsNull != null">or `article`.`detail` is null</if>
+        <if test="detailOrIsNotNull != null">or `article`.`detail` is not null</if>
         <if test="statusOrEqual != null">or `article`.`status` = #{statusOrEqual}</if>
         <if test="statusOrLess != null">or `article`.`status` &lt; #{statusOrLess}</if>
         <if test="statusOrGreat != null">or `article`.`status` &gt; #{statusOrGreat}</if>
@@ -1332,6 +1414,7 @@ select
 `article`.`deletedAt`,
 `article`.`title`,
 `article`.`desc`,
+`article`.`detail`,
 `article`.`status`,
 `article`.`uid`,
 `article`.`groupId`,
@@ -1438,6 +1521,19 @@ and `article`.`desc` in
       </if>
       <if test="descIsNull != null">and `article`.`desc` is null</if>
       <if test="descIsNotNull != null">and `article`.`desc` is not null</if>
+      <if test="detail != null">and `article`.`detail` = #{detail}</if>
+      <if test="detailLess != null">and `article`.`detail` &lt; #{detailLess}</if>
+      <if test="detailGreat != null">and `article`.`detail` &gt; #{detailGreat}</if>
+      <if test="detailLike != null">and instr(`article`.`detail`,#{detailLike})</if>
+      <if test="detailIn != null">
+and `article`.`detail` in
+ 
+        <foreach collection="detailIn" item="detailInItem" index="index" open="(" close=")" separator=",">
+#{detailInItem}
+</foreach>
+      </if>
+      <if test="detailIsNull != null">and `article`.`detail` is null</if>
+      <if test="detailIsNotNull != null">and `article`.`detail` is not null</if>
       <if test="status != null">and `article`.`status` = #{status}</if>
       <if test="statusLess != null">and `article`.`status` &lt; #{statusLess}</if>
       <if test="statusGreat != null">and `article`.`status` &gt; #{statusGreat}</if>
@@ -1803,6 +1899,19 @@ or `article`.`desc` in
         </if>
         <if test="descOrIsNull != null">or `article`.`desc` is null</if>
         <if test="descOrIsNotNull != null">or `article`.`desc` is not null</if>
+        <if test="detailOrEqual != null">or `article`.`detail` = #{detailOrEqual}</if>
+        <if test="detailOrLess != null">or `article`.`detail` &lt; #{detailOrLess}</if>
+        <if test="detailOrGreat != null">or `article`.`detail` &gt; #{detailOrGreat}</if>
+        <if test="detailOrLike != null">or instr(`article`.`detail`,#{detailOrLike})</if>
+        <if test="detailOrIn != null">
+or `article`.`detail` in
+ 
+          <foreach collection="detailOrIn" item="detailOrInItem" index="index" open="(" close=")" separator=",">
+#{detailOrInItem}
+</foreach>
+        </if>
+        <if test="detailOrIsNull != null">or `article`.`detail` is null</if>
+        <if test="detailOrIsNotNull != null">or `article`.`detail` is not null</if>
         <if test="statusOrEqual != null">or `article`.`status` = #{statusOrEqual}</if>
         <if test="statusOrLess != null">or `article`.`status` &lt; #{statusOrLess}</if>
         <if test="statusOrGreat != null">or `article`.`status` &gt; #{statusOrGreat}</if>
@@ -2104,6 +2213,7 @@ select
 `article`.`deletedAt`,
 `article`.`title`,
 `article`.`desc`,
+`article`.`detail`,
 `article`.`status`,
 `article`.`uid`,
 `article`.`groupId`,
@@ -2210,6 +2320,19 @@ and `article`.`desc` in
       </if>
       <if test="descIsNull != null">and `article`.`desc` is null</if>
       <if test="descIsNotNull != null">and `article`.`desc` is not null</if>
+      <if test="detail != null">and `article`.`detail` = #{detail}</if>
+      <if test="detailLess != null">and `article`.`detail` &lt; #{detailLess}</if>
+      <if test="detailGreat != null">and `article`.`detail` &gt; #{detailGreat}</if>
+      <if test="detailLike != null">and instr(`article`.`detail`,#{detailLike})</if>
+      <if test="detailIn != null">
+and `article`.`detail` in
+ 
+        <foreach collection="detailIn" item="detailInItem" index="index" open="(" close=")" separator=",">
+#{detailInItem}
+</foreach>
+      </if>
+      <if test="detailIsNull != null">and `article`.`detail` is null</if>
+      <if test="detailIsNotNull != null">and `article`.`detail` is not null</if>
       <if test="status != null">and `article`.`status` = #{status}</if>
       <if test="statusLess != null">and `article`.`status` &lt; #{statusLess}</if>
       <if test="statusGreat != null">and `article`.`status` &gt; #{statusGreat}</if>
@@ -2575,6 +2698,19 @@ or `article`.`desc` in
         </if>
         <if test="descOrIsNull != null">or `article`.`desc` is null</if>
         <if test="descOrIsNotNull != null">or `article`.`desc` is not null</if>
+        <if test="detailOrEqual != null">or `article`.`detail` = #{detailOrEqual}</if>
+        <if test="detailOrLess != null">or `article`.`detail` &lt; #{detailOrLess}</if>
+        <if test="detailOrGreat != null">or `article`.`detail` &gt; #{detailOrGreat}</if>
+        <if test="detailOrLike != null">or instr(`article`.`detail`,#{detailOrLike})</if>
+        <if test="detailOrIn != null">
+or `article`.`detail` in
+ 
+          <foreach collection="detailOrIn" item="detailOrInItem" index="index" open="(" close=")" separator=",">
+#{detailOrInItem}
+</foreach>
+        </if>
+        <if test="detailOrIsNull != null">or `article`.`detail` is null</if>
+        <if test="detailOrIsNotNull != null">or `article`.`detail` is not null</if>
         <if test="statusOrEqual != null">or `article`.`status` = #{statusOrEqual}</if>
         <if test="statusOrLess != null">or `article`.`status` &lt; #{statusOrLess}</if>
         <if test="statusOrGreat != null">or `article`.`status` &gt; #{statusOrGreat}</if>
@@ -2953,6 +3089,19 @@ and `article`.`desc` in
       </if>
       <if test="descIsNull != null">and `article`.`desc` is null</if>
       <if test="descIsNotNull != null">and `article`.`desc` is not null</if>
+      <if test="detail != null">and `article`.`detail` = #{detail}</if>
+      <if test="detailLess != null">and `article`.`detail` &lt; #{detailLess}</if>
+      <if test="detailGreat != null">and `article`.`detail` &gt; #{detailGreat}</if>
+      <if test="detailLike != null">and instr(`article`.`detail`,#{detailLike})</if>
+      <if test="detailIn != null">
+and `article`.`detail` in
+ 
+        <foreach collection="detailIn" item="detailInItem" index="index" open="(" close=")" separator=",">
+#{detailInItem}
+</foreach>
+      </if>
+      <if test="detailIsNull != null">and `article`.`detail` is null</if>
+      <if test="detailIsNotNull != null">and `article`.`detail` is not null</if>
       <if test="status != null">and `article`.`status` = #{status}</if>
       <if test="statusLess != null">and `article`.`status` &lt; #{statusLess}</if>
       <if test="statusGreat != null">and `article`.`status` &gt; #{statusGreat}</if>
@@ -3318,6 +3467,19 @@ or `article`.`desc` in
         </if>
         <if test="descOrIsNull != null">or `article`.`desc` is null</if>
         <if test="descOrIsNotNull != null">or `article`.`desc` is not null</if>
+        <if test="detailOrEqual != null">or `article`.`detail` = #{detailOrEqual}</if>
+        <if test="detailOrLess != null">or `article`.`detail` &lt; #{detailOrLess}</if>
+        <if test="detailOrGreat != null">or `article`.`detail` &gt; #{detailOrGreat}</if>
+        <if test="detailOrLike != null">or instr(`article`.`detail`,#{detailOrLike})</if>
+        <if test="detailOrIn != null">
+or `article`.`detail` in
+ 
+          <foreach collection="detailOrIn" item="detailOrInItem" index="index" open="(" close=")" separator=",">
+#{detailOrInItem}
+</foreach>
+        </if>
+        <if test="detailOrIsNull != null">or `article`.`detail` is null</if>
+        <if test="detailOrIsNotNull != null">or `article`.`detail` is not null</if>
         <if test="statusOrEqual != null">or `article`.`status` = #{statusOrEqual}</if>
         <if test="statusOrLess != null">or `article`.`status` &lt; #{statusOrLess}</if>
         <if test="statusOrGreat != null">or `article`.`status` &gt; #{statusOrGreat}</if>

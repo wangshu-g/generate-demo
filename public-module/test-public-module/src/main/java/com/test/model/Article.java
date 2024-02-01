@@ -50,9 +50,22 @@ public class Article extends BaseModel {
     @Column(conditions = {Condition.all}, title = "文章所属分组")
     private String groupId;
 
+    /**
+     * <p>
+     * 正常的一对一场景
+     * </p>
+     **/
     @JOIN(rightJoinField = "groupId")
     private ArticleGroup articleGroup;
 
+    /**
+     * <p>
+     * 少量一对多场景可以使用这种关联定义,过多时不建议使用
+     * </p>
+     * <p>
+     * getList 会忽略此类关联定义
+     * </p>
+     **/
     @JOIN(leftJoinField = "articleId")
     private List<ArticleTag> articleTagList;
 

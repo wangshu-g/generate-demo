@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.util.Arrays;
 
 @Slf4j
-@EnableConfig(modelPackage = {"com.test.model"}, enableDataSourceExchange = true)
+@EnableConfig(modelPackage = {"com.test.model"})
 @MapperScan(value = {"com.test.mapper"})
 @SpringBootApplication
 public class ApplicationTest implements CommandLineRunner {

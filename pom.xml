@@ -32,7 +32,6 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <kotlin.version>1.9.20</kotlin.version>
-        <kotlin-jvm-target.version>17</kotlin-jvm-target.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <spring-boot.version>3.2.2</spring-boot.version>
         <mysql.version>8.3.0</mysql.version>
@@ -156,7 +155,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <jvmTarget>${kotlin-jvm-target.version}</jvmTarget>
                     <sourceDirs>
                         <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
                     </sourceDirs>

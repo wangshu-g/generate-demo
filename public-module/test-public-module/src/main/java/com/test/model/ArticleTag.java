@@ -2,7 +2,6 @@ package com.test.model;
 
 import com.ws.annotation.Column;
 import com.ws.annotation.Data;
-import com.ws.annotation.JOIN;
 import com.ws.base.model.BaseModel;
 import com.ws.enu.Condition;
 import lombok.EqualsAndHashCode;
@@ -33,8 +32,5 @@ public class ArticleTag extends BaseModel {
 
     @Column(title = "所属文章", conditions = {Condition.all})
     private String articleId;
-
-    @JOIN(leftJoinField = "articleId")
-    private Article article;
 
 }
