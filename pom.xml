@@ -7,8 +7,8 @@
 
     <parent>
         <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.2</version>
+        <artifactId>spring-boot-dep</artifactId>
+        <version>3.2.3</version>
     </parent>
 
     <packaging>pom</packaging>
@@ -33,7 +33,7 @@
         <maven.compiler.target>21</maven.compiler.target>
         <kotlin.version>1.9.20</kotlin.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
-        <spring-boot.version>3.2.2</spring-boot.version>
+        <spring-boot.version>3.2.3</spring-boot.version>
         <mysql.version>8.3.0</mysql.version>
         <mybatis-starter.version>3.0.3</mybatis-starter.version>
         <mybatis-spring.version>3.0.3</mybatis-spring.version>
@@ -49,35 +49,42 @@
         <hutool.version>5.8.25</hutool.version>
     </properties>
 
-    <!-- 将以下配置添加到 maven 的 settings.xml 里 -->
+    <!--    将以下注释的servers配置添加到 maven 的 settings.xml 里-->
     <!--    <servers>-->
+    <!--        <server>-->
+    <!--            <id>ws-dep-manage-key</id>-->
+    <!--            <username>wangshu-g</username>-->
+    <!--            <password>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</password>-->
+    <!--        </server>-->
     <!--        <server>-->
     <!--            <id>ws-base-key</id>-->
     <!--            <username>wangshu-g</username>-->
-    <!--            <password>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</password>-->
+    <!--            <password>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</password>-->
     <!--        </server>-->
     <!--        <server>-->
     <!--            <id>ws-spring-boot-starter-key</id>-->
     <!--            <username>wangshu-g</username>-->
-    <!--            <password>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</password>-->
+    <!--            <password>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</password>-->
     <!--        </server>-->
     <!--    </servers>-->
 
     <!--仓库坐标-->
     <repositories>
-
+        <repository>
+            <id>ws-dep-manage-key</id>
+            <name>GitHub OWNER Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/wangshu-g/ws-dep-manage/</url>
+        </repository>
         <repository>
             <id>ws-base-key</id>
             <name>GitHub OWNER Apache Maven Packages</name>
             <url>https://maven.pkg.github.com/wangshu-g/ws-base/</url>
         </repository>
-
         <repository>
             <id>ws-spring-boot-starter-key</id>
             <name>GitHub OWNER Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/wangshu-g/ws-spring-boot-starter</url>
+            <url>https://maven.pkg.github.com/wangshu-g/ws-spring-boot-starter/</url>
         </repository>
-
     </repositories>
 
     <!--依赖管理-->
@@ -93,13 +100,13 @@
             <dependency>
                 <groupId>com.ws</groupId>
                 <artifactId>ws-base</artifactId>
-                <version>1.0.4</version>
+                <version>1.1.0</version>
             </dependency>
 
             <dependency>
                 <groupId>com.ws</groupId>
                 <artifactId>ws-spring-boot-starter</artifactId>
-                <version>1.0.4</version>
+                <version>1.1.0</version>
             </dependency>
 
         </dependencies>
