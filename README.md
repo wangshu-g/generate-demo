@@ -5,7 +5,7 @@
 <!-- 将以下配置添加到 maven 的 settings.xml 里 -->
 <servers>
     <server>
-        <id>ws-dep-manage</id>
+        <id>ws-dep-manage-key</id>
         <username>wangshu-g</username>
         <password>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</password>
     </server>
