@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.3</version>
+        <version>3.2.4</version>
     </parent>
 
     <packaging>pom</packaging>
@@ -54,17 +54,7 @@
     <!--        <server>-->
     <!--            <id>ws-dep-manage-key</id>-->
     <!--            <username>wangshu-g</username>-->
-    <!--            <password>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</password>-->
-    <!--        </server>-->
-    <!--        <server>-->
-    <!--            <id>ws-base-key</id>-->
-    <!--            <username>wangshu-g</username>-->
-    <!--            <password>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</password>-->
-    <!--        </server>-->
-    <!--        <server>-->
-    <!--            <id>ws-spring-boot-starter-key</id>-->
-    <!--            <username>wangshu-g</username>-->
-    <!--            <password>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</password>-->
+    <!--            <password>这里参照网站生成下载里最新的</password>-->
     <!--        </server>-->
     <!--    </servers>-->
 
@@ -74,16 +64,6 @@
             <id>ws-dep-manage-key</id>
             <name>GitHub OWNER Apache Maven Packages</name>
             <url>https://maven.pkg.github.com/wangshu-g/ws-dep-manage/</url>
-        </repository>
-        <repository>
-            <id>ws-base-key</id>
-            <name>GitHub OWNER Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/wangshu-g/ws-base/</url>
-        </repository>
-        <repository>
-            <id>ws-spring-boot-starter-key</id>
-            <name>GitHub OWNER Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/wangshu-g/ws-spring-boot-starter/</url>
         </repository>
     </repositories>
 
@@ -100,13 +80,13 @@
             <dependency>
                 <groupId>com.ws</groupId>
                 <artifactId>ws-base</artifactId>
-                <version>1.1.0</version>
+                <version>1.2.0</version>
             </dependency>
 
             <dependency>
                 <groupId>com.ws</groupId>
                 <artifactId>ws-spring-boot-starter</artifactId>
-                <version>1.1.0</version>
+                <version>1.2.0</version>
             </dependency>
 
         </dependencies>

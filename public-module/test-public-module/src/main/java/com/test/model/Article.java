@@ -60,7 +60,7 @@ public class Article extends BaseModel {
 
     /**
      * <p>
-     * 少量一对多场景可以使用这种关联定义,过多时不建议使用
+     * 诸如此类场景映射，能用，但是尽量不要使用
      * </p>
      * <p>
      * getList 会忽略此类关联定义

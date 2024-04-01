@@ -20,17 +20,17 @@
     </collection>
   </resultMap>
  
-  <insert id="save" parameterType="Map" useGeneratedKeys="true" keyProperty="id">
+  <insert id="_save" parameterType="Map" useGeneratedKeys="true" keyProperty="id">
 insert into articleGroup(`id`,`createdAt`,`updatedAt`,`deletedAt`,`groupName`,`desc`,`uid`) values (#{id},#{createdAt},#{updatedAt},#{deletedAt},#{groupName},#{desc},#{uid});
 </insert>
  
-  <insert id="batchSave" parameterType="List" useGeneratedKeys="true" keyProperty="id">
+  <insert id="_batchSave" parameterType="List" useGeneratedKeys="true" keyProperty="id">
 insert into articleGroup(`id`,`createdAt`,`updatedAt`,`deletedAt`,`groupName`,`desc`,`uid`) values
  
     <foreach collection="list" item="item" index="index" separator=",">(#{item.id},#{item.createdAt},#{item.updatedAt},#{item.deletedAt},#{item.groupName},#{item.desc},#{item.uid})</foreach>
   </insert>
  
-  <delete id="delete" parameterType="Map">
+  <delete id="_delete" parameterType="Map">
 delete from articleGroup
     <where>
       <if test="id != null">and `articleGroup`.`id` = #{id}</if>
@@ -220,7 +220,7 @@ or `articleGroup`.`uid` in
     </where>
   </delete>
  
-  <update id="update" parameterType="Map">
+  <update id="_update" parameterType="Map">
 update articleGroup
  
     <set>
@@ -427,7 +427,7 @@ or `articleGroup`.`uid` in
     </where>
   </update>
  
-  <select id="select" parameterType="Map" resultType="com.test.model.ArticleGroup" resultMap="ArticleGroup">
+  <select id="_select" parameterType="Map" resultType="com.test.model.ArticleGroup" resultMap="ArticleGroup">
 select 
 `articleGroup`.`id`,
 `articleGroup`.`createdAt`,
@@ -436,15 +436,13 @@ select
 `articleGroup`.`groupName`,
 `articleGroup`.`desc`,
 `articleGroup`.`uid`,
-`user`.`id` as userModelId,
 `user`.`createdAt` as userModelCreatedAt,
 `user`.`updatedAt` as userModelUpdatedAt,
 `user`.`deletedAt` as userModelDeletedAt,
 `user`.`name` as userModelName,
 `user`.`readMe` as userModelReadMe
 from articleGroup
-left join user on user.id = articleGroup.uid
- 
+left join user as user on user.id = articleGroup.uid
     <where>
       <if test="id != null">and `articleGroup`.`id` = #{id}</if>
       <if test="idLess != null">and `articleGroup`.`id` &lt; #{idLess}</if>
@@ -790,7 +788,7 @@ or `user`.`readMe` in
     </where>
   </select>
  
-  <select id="getList" parameterType="Map" resultType="Map">
+  <select id="_getList" parameterType="Map" resultType="Map">
 select 
 `articleGroup`.`id`,
 `articleGroup`.`createdAt`,
@@ -799,15 +797,13 @@ select
 `articleGroup`.`groupName`,
 `articleGroup`.`desc`,
 `articleGroup`.`uid`,
-`user`.`id` as userModelId,
 `user`.`createdAt` as userModelCreatedAt,
 `user`.`updatedAt` as userModelUpdatedAt,
 `user`.`deletedAt` as userModelDeletedAt,
 `user`.`name` as userModelName,
 `user`.`readMe` as userModelReadMe
 from articleGroup
-left join user on user.id = articleGroup.uid
- 
+left join user as user on user.id = articleGroup.uid
     <where>
       <if test="id != null">and `articleGroup`.`id` = #{id}</if>
       <if test="idLess != null">and `articleGroup`.`id` &lt; #{idLess}</if>
@@ -1155,7 +1151,7 @@ or `user`.`readMe` in
 limit ${pageIndex},${pageSize}
   </select>
  
-  <select id="getNestList" parameterType="Map" resultType="com.test.model.ArticleGroup" resultMap="ArticleGroup">
+  <select id="_getNestList" parameterType="Map" resultType="com.test.model.ArticleGroup" resultMap="ArticleGroup">
 select 
 `articleGroup`.`id`,
 `articleGroup`.`createdAt`,
@@ -1164,15 +1160,13 @@ select
 `articleGroup`.`groupName`,
 `articleGroup`.`desc`,
 `articleGroup`.`uid`,
-`user`.`id` as userModelId,
 `user`.`createdAt` as userModelCreatedAt,
 `user`.`updatedAt` as userModelUpdatedAt,
 `user`.`deletedAt` as userModelDeletedAt,
 `user`.`name` as userModelName,
 `user`.`readMe` as userModelReadMe
 from articleGroup
-left join user on user.id = articleGroup.uid
- 
+left join user as user on user.id = articleGroup.uid
     <where>
       <if test="id != null">and `articleGroup`.`id` = #{id}</if>
       <if test="idLess != null">and `articleGroup`.`id` &lt; #{idLess}</if>
@@ -1520,10 +1514,9 @@ or `user`.`readMe` in
 limit ${pageIndex},${pageSize}
   </select>
  
-  <select id="getTotal" parameterType="Map" resultType="Integer">
+  <select id="_getListTotal" parameterType="Map" resultType="Integer">
 select count(`articleGroup`.`id`) from articleGroup
-left join user on user.id = articleGroup.uid
- 
+left join user as user on user.id = articleGroup.uid
     <where>
       <if test="id != null">and `articleGroup`.`id` = #{id}</if>
       <if test="idLess != null">and `articleGroup`.`id` &lt; #{idLess}</if>
@@ -1866,6 +1859,354 @@ or `user`.`readMe` in
         <if test="userModelReadMeOrIsNotNull != null">or `user`.`readMe` is not null</if>)
       </if>
     </where>
+  </select>
+ 
+  <select id="_getNestListTotal" parameterType="Map" resultType="Integer">
+select count(`id`) from (select `articleGroup`.`id` from articleGroup
+left join user as user on user.id = articleGroup.uid
+    <where>
+      <if test="id != null">and `articleGroup`.`id` = #{id}</if>
+      <if test="idLess != null">and `articleGroup`.`id` &lt; #{idLess}</if>
+      <if test="idGreat != null">and `articleGroup`.`id` &gt; #{idGreat}</if>
+      <if test="idLike != null">and instr(`articleGroup`.`id`,#{idLike})</if>
+      <if test="idIn != null">
+and `articleGroup`.`id` in
+ 
+        <foreach collection="idIn" item="idInItem" index="index" open="(" close=")" separator=",">
+#{idInItem}
+</foreach>
+      </if>
+      <if test="idIsNull != null">and `articleGroup`.`id` is null</if>
+      <if test="idIsNotNull != null">and `articleGroup`.`id` is not null</if>
+      <if test="createdAt != null">and `articleGroup`.`createdAt` = #{createdAt}</if>
+      <if test="createdAtLess != null">and `articleGroup`.`createdAt` &lt; #{createdAtLess}</if>
+      <if test="createdAtGreat != null">and `articleGroup`.`createdAt` &gt; #{createdAtGreat}</if>
+      <if test="createdAtLike != null">and instr(`articleGroup`.`createdAt`,#{createdAtLike})</if>
+      <if test="createdAtIn != null">
+and `articleGroup`.`createdAt` in
+ 
+        <foreach collection="createdAtIn" item="createdAtInItem" index="index" open="(" close=")" separator=",">
+#{createdAtInItem}
+</foreach>
+      </if>
+      <if test="createdAtIsNull != null">and `articleGroup`.`createdAt` is null</if>
+      <if test="createdAtIsNotNull != null">and `articleGroup`.`createdAt` is not null</if>
+      <if test="updatedAt != null">and `articleGroup`.`updatedAt` = #{updatedAt}</if>
+      <if test="updatedAtLess != null">and `articleGroup`.`updatedAt` &lt; #{updatedAtLess}</if>
+      <if test="updatedAtGreat != null">and `articleGroup`.`updatedAt` &gt; #{updatedAtGreat}</if>
+      <if test="updatedAtLike != null">and instr(`articleGroup`.`updatedAt`,#{updatedAtLike})</if>
+      <if test="updatedAtIn != null">
+and `articleGroup`.`updatedAt` in
+ 
+        <foreach collection="updatedAtIn" item="updatedAtInItem" index="index" open="(" close=")" separator=",">
+#{updatedAtInItem}
+</foreach>
+      </if>
+      <if test="updatedAtIsNull != null">and `articleGroup`.`updatedAt` is null</if>
+      <if test="updatedAtIsNotNull != null">and `articleGroup`.`updatedAt` is not null</if>
+      <if test="deletedAt != null">and `articleGroup`.`deletedAt` = #{deletedAt}</if>
+      <if test="deletedAtLess != null">and `articleGroup`.`deletedAt` &lt; #{deletedAtLess}</if>
+      <if test="deletedAtGreat != null">and `articleGroup`.`deletedAt` &gt; #{deletedAtGreat}</if>
+      <if test="deletedAtLike != null">and instr(`articleGroup`.`deletedAt`,#{deletedAtLike})</if>
+      <if test="deletedAtIn != null">
+and `articleGroup`.`deletedAt` in
+ 
+        <foreach collection="deletedAtIn" item="deletedAtInItem" index="index" open="(" close=")" separator=",">
+#{deletedAtInItem}
+</foreach>
+      </if>
+      <if test="deletedAtIsNull != null">and `articleGroup`.`deletedAt` is null</if>
+      <if test="deletedAtIsNotNull != null">and `articleGroup`.`deletedAt` is not null</if>
+      <if test="groupName != null">and `articleGroup`.`groupName` = #{groupName}</if>
+      <if test="groupNameLess != null">and `articleGroup`.`groupName` &lt; #{groupNameLess}</if>
+      <if test="groupNameGreat != null">and `articleGroup`.`groupName` &gt; #{groupNameGreat}</if>
+      <if test="groupNameLike != null">and instr(`articleGroup`.`groupName`,#{groupNameLike})</if>
+      <if test="groupNameIn != null">
+and `articleGroup`.`groupName` in
+ 
+        <foreach collection="groupNameIn" item="groupNameInItem" index="index" open="(" close=")" separator=",">
+#{groupNameInItem}
+</foreach>
+      </if>
+      <if test="groupNameIsNull != null">and `articleGroup`.`groupName` is null</if>
+      <if test="groupNameIsNotNull != null">and `articleGroup`.`groupName` is not null</if>
+      <if test="desc != null">and `articleGroup`.`desc` = #{desc}</if>
+      <if test="descLess != null">and `articleGroup`.`desc` &lt; #{descLess}</if>
+      <if test="descGreat != null">and `articleGroup`.`desc` &gt; #{descGreat}</if>
+      <if test="descLike != null">and instr(`articleGroup`.`desc`,#{descLike})</if>
+      <if test="descIn != null">
+and `articleGroup`.`desc` in
+ 
+        <foreach collection="descIn" item="descInItem" index="index" open="(" close=")" separator=",">
+#{descInItem}
+</foreach>
+      </if>
+      <if test="descIsNull != null">and `articleGroup`.`desc` is null</if>
+      <if test="descIsNotNull != null">and `articleGroup`.`desc` is not null</if>
+      <if test="uid != null">and `articleGroup`.`uid` = #{uid}</if>
+      <if test="uidLess != null">and `articleGroup`.`uid` &lt; #{uidLess}</if>
+      <if test="uidGreat != null">and `articleGroup`.`uid` &gt; #{uidGreat}</if>
+      <if test="uidLike != null">and instr(`articleGroup`.`uid`,#{uidLike})</if>
+      <if test="uidIn != null">
+and `articleGroup`.`uid` in
+ 
+        <foreach collection="uidIn" item="uidInItem" index="index" open="(" close=")" separator=",">
+#{uidInItem}
+</foreach>
+      </if>
+      <if test="uidIsNull != null">and `articleGroup`.`uid` is null</if>
+      <if test="uidIsNotNull != null">and `articleGroup`.`uid` is not null</if>
+      <if test="userModelId != null">and `user`.`id` = #{userModelId}</if>
+      <if test="userModelIdLess != null">and `user`.`id` &lt; #{userModelIdLess}</if>
+      <if test="userModelIdGreat != null">and `user`.`id` &gt; #{userModelIdGreat}</if>
+      <if test="userModelIdLike != null">and instr(`user`.`id`,#{userModelIdLike})</if>
+      <if test="userModelIdIn != null">
+and `user`.`id` in
+ 
+        <foreach collection="userModelIdIn" item="userModelIdInItem" index="index" open="(" close=")" separator=",">
+#{userModelIdInItem}
+</foreach>
+      </if>
+      <if test="userModelIdIsNull != null">and `user`.`id` is null</if>
+      <if test="userModelIdIsNotNull != null">and `user`.`id` is not null</if>
+      <if test="userModelCreatedAt != null">and `user`.`createdAt` = #{userModelCreatedAt}</if>
+      <if test="userModelCreatedAtLess != null">and `user`.`createdAt` &lt; #{userModelCreatedAtLess}</if>
+      <if test="userModelCreatedAtGreat != null">and `user`.`createdAt` &gt; #{userModelCreatedAtGreat}</if>
+      <if test="userModelCreatedAtLike != null">and instr(`user`.`createdAt`,#{userModelCreatedAtLike})</if>
+      <if test="userModelCreatedAtIn != null">
+and `user`.`createdAt` in
+ 
+        <foreach collection="userModelCreatedAtIn" item="userModelCreatedAtInItem" index="index" open="(" close=")" separator=",">
+#{userModelCreatedAtInItem}
+</foreach>
+      </if>
+      <if test="userModelCreatedAtIsNull != null">and `user`.`createdAt` is null</if>
+      <if test="userModelCreatedAtIsNotNull != null">and `user`.`createdAt` is not null</if>
+      <if test="userModelUpdatedAt != null">and `user`.`updatedAt` = #{userModelUpdatedAt}</if>
+      <if test="userModelUpdatedAtLess != null">and `user`.`updatedAt` &lt; #{userModelUpdatedAtLess}</if>
+      <if test="userModelUpdatedAtGreat != null">and `user`.`updatedAt` &gt; #{userModelUpdatedAtGreat}</if>
+      <if test="userModelUpdatedAtLike != null">and instr(`user`.`updatedAt`,#{userModelUpdatedAtLike})</if>
+      <if test="userModelUpdatedAtIn != null">
+and `user`.`updatedAt` in
+ 
+        <foreach collection="userModelUpdatedAtIn" item="userModelUpdatedAtInItem" index="index" open="(" close=")" separator=",">
+#{userModelUpdatedAtInItem}
+</foreach>
+      </if>
+      <if test="userModelUpdatedAtIsNull != null">and `user`.`updatedAt` is null</if>
+      <if test="userModelUpdatedAtIsNotNull != null">and `user`.`updatedAt` is not null</if>
+      <if test="userModelDeletedAt != null">and `user`.`deletedAt` = #{userModelDeletedAt}</if>
+      <if test="userModelDeletedAtLess != null">and `user`.`deletedAt` &lt; #{userModelDeletedAtLess}</if>
+      <if test="userModelDeletedAtGreat != null">and `user`.`deletedAt` &gt; #{userModelDeletedAtGreat}</if>
+      <if test="userModelDeletedAtLike != null">and instr(`user`.`deletedAt`,#{userModelDeletedAtLike})</if>
+      <if test="userModelDeletedAtIn != null">
+and `user`.`deletedAt` in
+ 
+        <foreach collection="userModelDeletedAtIn" item="userModelDeletedAtInItem" index="index" open="(" close=")" separator=",">
+#{userModelDeletedAtInItem}
+</foreach>
+      </if>
+      <if test="userModelDeletedAtIsNull != null">and `user`.`deletedAt` is null</if>
+      <if test="userModelDeletedAtIsNotNull != null">and `user`.`deletedAt` is not null</if>
+      <if test="userModelName != null">and `user`.`name` = #{userModelName}</if>
+      <if test="userModelNameLess != null">and `user`.`name` &lt; #{userModelNameLess}</if>
+      <if test="userModelNameGreat != null">and `user`.`name` &gt; #{userModelNameGreat}</if>
+      <if test="userModelNameLike != null">and instr(`user`.`name`,#{userModelNameLike})</if>
+      <if test="userModelNameIn != null">
+and `user`.`name` in
+ 
+        <foreach collection="userModelNameIn" item="userModelNameInItem" index="index" open="(" close=")" separator=",">
+#{userModelNameInItem}
+</foreach>
+      </if>
+      <if test="userModelNameIsNull != null">and `user`.`name` is null</if>
+      <if test="userModelNameIsNotNull != null">and `user`.`name` is not null</if>
+      <if test="userModelReadMe != null">and `user`.`readMe` = #{userModelReadMe}</if>
+      <if test="userModelReadMeLess != null">and `user`.`readMe` &lt; #{userModelReadMeLess}</if>
+      <if test="userModelReadMeGreat != null">and `user`.`readMe` &gt; #{userModelReadMeGreat}</if>
+      <if test="userModelReadMeLike != null">and instr(`user`.`readMe`,#{userModelReadMeLike})</if>
+      <if test="userModelReadMeIn != null">
+and `user`.`readMe` in
+ 
+        <foreach collection="userModelReadMeIn" item="userModelReadMeInItem" index="index" open="(" close=")" separator=",">
+#{userModelReadMeInItem}
+</foreach>
+      </if>
+      <if test="userModelReadMeIsNull != null">and `user`.`readMe` is null</if>
+      <if test="userModelReadMeIsNotNull != null">and `user`.`readMe` is not null</if>
+      <if test="enableOr != null">and (0 = 1
+        <if test="idOrEqual != null">or `articleGroup`.`id` = #{idOrEqual}</if>
+        <if test="idOrLess != null">or `articleGroup`.`id` &lt; #{idOrLess}</if>
+        <if test="idOrGreat != null">or `articleGroup`.`id` &gt; #{idOrGreat}</if>
+        <if test="idOrLike != null">or instr(`articleGroup`.`id`,#{idOrLike})</if>
+        <if test="idOrIn != null">
+or `articleGroup`.`id` in
+ 
+          <foreach collection="idOrIn" item="idOrInItem" index="index" open="(" close=")" separator=",">
+#{idOrInItem}
+</foreach>
+        </if>
+        <if test="idOrIsNull != null">or `articleGroup`.`id` is null</if>
+        <if test="idOrIsNotNull != null">or `articleGroup`.`id` is not null</if>
+        <if test="createdAtOrEqual != null">or `articleGroup`.`createdAt` = #{createdAtOrEqual}</if>
+        <if test="createdAtOrLess != null">or `articleGroup`.`createdAt` &lt; #{createdAtOrLess}</if>
+        <if test="createdAtOrGreat != null">or `articleGroup`.`createdAt` &gt; #{createdAtOrGreat}</if>
+        <if test="createdAtOrLike != null">or instr(`articleGroup`.`createdAt`,#{createdAtOrLike})</if>
+        <if test="createdAtOrIn != null">
+or `articleGroup`.`createdAt` in
+ 
+          <foreach collection="createdAtOrIn" item="createdAtOrInItem" index="index" open="(" close=")" separator=",">
+#{createdAtOrInItem}
+</foreach>
+        </if>
+        <if test="createdAtOrIsNull != null">or `articleGroup`.`createdAt` is null</if>
+        <if test="createdAtOrIsNotNull != null">or `articleGroup`.`createdAt` is not null</if>
+        <if test="updatedAtOrEqual != null">or `articleGroup`.`updatedAt` = #{updatedAtOrEqual}</if>
+        <if test="updatedAtOrLess != null">or `articleGroup`.`updatedAt` &lt; #{updatedAtOrLess}</if>
+        <if test="updatedAtOrGreat != null">or `articleGroup`.`updatedAt` &gt; #{updatedAtOrGreat}</if>
+        <if test="updatedAtOrLike != null">or instr(`articleGroup`.`updatedAt`,#{updatedAtOrLike})</if>
+        <if test="updatedAtOrIn != null">
+or `articleGroup`.`updatedAt` in
+ 
+          <foreach collection="updatedAtOrIn" item="updatedAtOrInItem" index="index" open="(" close=")" separator=",">
+#{updatedAtOrInItem}
+</foreach>
+        </if>
+        <if test="updatedAtOrIsNull != null">or `articleGroup`.`updatedAt` is null</if>
+        <if test="updatedAtOrIsNotNull != null">or `articleGroup`.`updatedAt` is not null</if>
+        <if test="deletedAtOrEqual != null">or `articleGroup`.`deletedAt` = #{deletedAtOrEqual}</if>
+        <if test="deletedAtOrLess != null">or `articleGroup`.`deletedAt` &lt; #{deletedAtOrLess}</if>
+        <if test="deletedAtOrGreat != null">or `articleGroup`.`deletedAt` &gt; #{deletedAtOrGreat}</if>
+        <if test="deletedAtOrLike != null">or instr(`articleGroup`.`deletedAt`,#{deletedAtOrLike})</if>
+        <if test="deletedAtOrIn != null">
+or `articleGroup`.`deletedAt` in
+ 
+          <foreach collection="deletedAtOrIn" item="deletedAtOrInItem" index="index" open="(" close=")" separator=",">
+#{deletedAtOrInItem}
+</foreach>
+        </if>
+        <if test="deletedAtOrIsNull != null">or `articleGroup`.`deletedAt` is null</if>
+        <if test="deletedAtOrIsNotNull != null">or `articleGroup`.`deletedAt` is not null</if>
+        <if test="groupNameOrEqual != null">or `articleGroup`.`groupName` = #{groupNameOrEqual}</if>
+        <if test="groupNameOrLess != null">or `articleGroup`.`groupName` &lt; #{groupNameOrLess}</if>
+        <if test="groupNameOrGreat != null">or `articleGroup`.`groupName` &gt; #{groupNameOrGreat}</if>
+        <if test="groupNameOrLike != null">or instr(`articleGroup`.`groupName`,#{groupNameOrLike})</if>
+        <if test="groupNameOrIn != null">
+or `articleGroup`.`groupName` in
+ 
+          <foreach collection="groupNameOrIn" item="groupNameOrInItem" index="index" open="(" close=")" separator=",">
+#{groupNameOrInItem}
+</foreach>
+        </if>
+        <if test="groupNameOrIsNull != null">or `articleGroup`.`groupName` is null</if>
+        <if test="groupNameOrIsNotNull != null">or `articleGroup`.`groupName` is not null</if>
+        <if test="descOrEqual != null">or `articleGroup`.`desc` = #{descOrEqual}</if>
+        <if test="descOrLess != null">or `articleGroup`.`desc` &lt; #{descOrLess}</if>
+        <if test="descOrGreat != null">or `articleGroup`.`desc` &gt; #{descOrGreat}</if>
+        <if test="descOrLike != null">or instr(`articleGroup`.`desc`,#{descOrLike})</if>
+        <if test="descOrIn != null">
+or `articleGroup`.`desc` in
+ 
+          <foreach collection="descOrIn" item="descOrInItem" index="index" open="(" close=")" separator=",">
+#{descOrInItem}
+</foreach>
+        </if>
+        <if test="descOrIsNull != null">or `articleGroup`.`desc` is null</if>
+        <if test="descOrIsNotNull != null">or `articleGroup`.`desc` is not null</if>
+        <if test="uidOrEqual != null">or `articleGroup`.`uid` = #{uidOrEqual}</if>
+        <if test="uidOrLess != null">or `articleGroup`.`uid` &lt; #{uidOrLess}</if>
+        <if test="uidOrGreat != null">or `articleGroup`.`uid` &gt; #{uidOrGreat}</if>
+        <if test="uidOrLike != null">or instr(`articleGroup`.`uid`,#{uidOrLike})</if>
+        <if test="uidOrIn != null">
+or `articleGroup`.`uid` in
+ 
+          <foreach collection="uidOrIn" item="uidOrInItem" index="index" open="(" close=")" separator=",">
+#{uidOrInItem}
+</foreach>
+        </if>
+        <if test="uidOrIsNull != null">or `articleGroup`.`uid` is null</if>
+        <if test="uidOrIsNotNull != null">or `articleGroup`.`uid` is not null</if>
+        <if test="userModelIdOrEqual != null">or `user`.`id` = #{userModelIdOrEqual}</if>
+        <if test="userModelIdOrLess != null">or `user`.`id` &lt; #{userModelIdOrLess}</if>
+        <if test="userModelIdOrGreat != null">or `user`.`id` &gt; #{userModelIdOrGreat}</if>
+        <if test="userModelIdOrLike != null">or instr(`user`.`id`,#{userModelIdOrLike})</if>
+        <if test="userModelIdOrIn != null">
+or `user`.`id` in
+ 
+          <foreach collection="userModelIdOrIn" item="userModelIdOrInItem" index="index" open="(" close=")" separator=",">
+#{userModelIdOrInItem}
+</foreach>
+        </if>
+        <if test="userModelIdOrIsNull != null">or `user`.`id` is null</if>
+        <if test="userModelIdOrIsNotNull != null">or `user`.`id` is not null</if>
+        <if test="userModelCreatedAtOrEqual != null">or `user`.`createdAt` = #{userModelCreatedAtOrEqual}</if>
+        <if test="userModelCreatedAtOrLess != null">or `user`.`createdAt` &lt; #{userModelCreatedAtOrLess}</if>
+        <if test="userModelCreatedAtOrGreat != null">or `user`.`createdAt` &gt; #{userModelCreatedAtOrGreat}</if>
+        <if test="userModelCreatedAtOrLike != null">or instr(`user`.`createdAt`,#{userModelCreatedAtOrLike})</if>
+        <if test="userModelCreatedAtOrIn != null">
+or `user`.`createdAt` in
+ 
+          <foreach collection="userModelCreatedAtOrIn" item="userModelCreatedAtOrInItem" index="index" open="(" close=")" separator=",">
+#{userModelCreatedAtOrInItem}
+</foreach>
+        </if>
+        <if test="userModelCreatedAtOrIsNull != null">or `user`.`createdAt` is null</if>
+        <if test="userModelCreatedAtOrIsNotNull != null">or `user`.`createdAt` is not null</if>
+        <if test="userModelUpdatedAtOrEqual != null">or `user`.`updatedAt` = #{userModelUpdatedAtOrEqual}</if>
+        <if test="userModelUpdatedAtOrLess != null">or `user`.`updatedAt` &lt; #{userModelUpdatedAtOrLess}</if>
+        <if test="userModelUpdatedAtOrGreat != null">or `user`.`updatedAt` &gt; #{userModelUpdatedAtOrGreat}</if>
+        <if test="userModelUpdatedAtOrLike != null">or instr(`user`.`updatedAt`,#{userModelUpdatedAtOrLike})</if>
+        <if test="userModelUpdatedAtOrIn != null">
+or `user`.`updatedAt` in
+ 
+          <foreach collection="userModelUpdatedAtOrIn" item="userModelUpdatedAtOrInItem" index="index" open="(" close=")" separator=",">
+#{userModelUpdatedAtOrInItem}
+</foreach>
+        </if>
+        <if test="userModelUpdatedAtOrIsNull != null">or `user`.`updatedAt` is null</if>
+        <if test="userModelUpdatedAtOrIsNotNull != null">or `user`.`updatedAt` is not null</if>
+        <if test="userModelDeletedAtOrEqual != null">or `user`.`deletedAt` = #{userModelDeletedAtOrEqual}</if>
+        <if test="userModelDeletedAtOrLess != null">or `user`.`deletedAt` &lt; #{userModelDeletedAtOrLess}</if>
+        <if test="userModelDeletedAtOrGreat != null">or `user`.`deletedAt` &gt; #{userModelDeletedAtOrGreat}</if>
+        <if test="userModelDeletedAtOrLike != null">or instr(`user`.`deletedAt`,#{userModelDeletedAtOrLike})</if>
+        <if test="userModelDeletedAtOrIn != null">
+or `user`.`deletedAt` in
+ 
+          <foreach collection="userModelDeletedAtOrIn" item="userModelDeletedAtOrInItem" index="index" open="(" close=")" separator=",">
+#{userModelDeletedAtOrInItem}
+</foreach>
+        </if>
+        <if test="userModelDeletedAtOrIsNull != null">or `user`.`deletedAt` is null</if>
+        <if test="userModelDeletedAtOrIsNotNull != null">or `user`.`deletedAt` is not null</if>
+        <if test="userModelNameOrEqual != null">or `user`.`name` = #{userModelNameOrEqual}</if>
+        <if test="userModelNameOrLess != null">or `user`.`name` &lt; #{userModelNameOrLess}</if>
+        <if test="userModelNameOrGreat != null">or `user`.`name` &gt; #{userModelNameOrGreat}</if>
+        <if test="userModelNameOrLike != null">or instr(`user`.`name`,#{userModelNameOrLike})</if>
+        <if test="userModelNameOrIn != null">
+or `user`.`name` in
+ 
+          <foreach collection="userModelNameOrIn" item="userModelNameOrInItem" index="index" open="(" close=")" separator=",">
+#{userModelNameOrInItem}
+</foreach>
+        </if>
+        <if test="userModelNameOrIsNull != null">or `user`.`name` is null</if>
+        <if test="userModelNameOrIsNotNull != null">or `user`.`name` is not null</if>
+        <if test="userModelReadMeOrEqual != null">or `user`.`readMe` = #{userModelReadMeOrEqual}</if>
+        <if test="userModelReadMeOrLess != null">or `user`.`readMe` &lt; #{userModelReadMeOrLess}</if>
+        <if test="userModelReadMeOrGreat != null">or `user`.`readMe` &gt; #{userModelReadMeOrGreat}</if>
+        <if test="userModelReadMeOrLike != null">or instr(`user`.`readMe`,#{userModelReadMeOrLike})</if>
+        <if test="userModelReadMeOrIn != null">
+or `user`.`readMe` in
+ 
+          <foreach collection="userModelReadMeOrIn" item="userModelReadMeOrInItem" index="index" open="(" close=")" separator=",">
+#{userModelReadMeOrInItem}
+</foreach>
+        </if>
+        <if test="userModelReadMeOrIsNull != null">or `user`.`readMe` is null</if>
+        <if test="userModelReadMeOrIsNotNull != null">or `user`.`readMe` is not null</if>)
+      </if>
+    </where>
+group by `articleGroup`.`id`) as data
   </select>
 
 </mapper>

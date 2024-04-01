@@ -7,17 +7,7 @@
     <server>
         <id>ws-dep-manage-key</id>
         <username>wangshu-g</username>
-        <password>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</password>
-    </server>
-    <server>
-        <id>ws-base-key</id>
-        <username>wangshu-g</username>
-        <password>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</password>
-    </server>
-    <server>
-        <id>ws-spring-boot-starter-key</id>
-        <username>wangshu-g</username>
-        <password>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</password>
+        <password>这里参照网站生成下载里最新的</password>
     </server>
 </servers>
 

@@ -23,12 +23,6 @@
         <dependency>
             <groupId>com.ws</groupId>
             <artifactId>ws-base</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>kotlin-stdlib</artifactId>
-                    <groupId>org.jetbrains.kotlin</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
