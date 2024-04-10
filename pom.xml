@@ -13,7 +13,7 @@
 
     <packaging>pom</packaging>
 
-    <groupId>com.ws</groupId>
+    <groupId>io.github.wangshu-g</groupId>
 
     <artifactId>ws-generate-test-example</artifactId>
 
@@ -49,24 +49,6 @@
         <hutool.version>5.8.25</hutool.version>
     </properties>
 
-    <!--    将以下注释的servers配置添加到 maven 的 settings.xml 里-->
-    <!--    <servers>-->
-    <!--        <server>-->
-    <!--            <id>ws-dep-manage-key</id>-->
-    <!--            <username>wangshu-g</username>-->
-    <!--            <password>这里参照网站生成下载里最新的</password>-->
-    <!--        </server>-->
-    <!--    </servers>-->
-
-    <!--仓库坐标-->
-    <repositories>
-        <repository>
-            <id>ws-dep-manage-key</id>
-            <name>GitHub OWNER Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/wangshu-g/ws-dep-manage/</url>
-        </repository>
-    </repositories>
-
     <!--依赖管理-->
     <dependencyManagement>
         <dependencies>
@@ -78,13 +60,13 @@
             </dependency>
 
             <dependency>
-                <groupId>com.ws</groupId>
+                <groupId>io.github.wangshu-g</groupId>
                 <artifactId>ws-base</artifactId>
                 <version>1.2.0</version>
             </dependency>
 
             <dependency>
-                <groupId>com.ws</groupId>
+                <groupId>io.github.wangshu-g</groupId>
                 <artifactId>ws-spring-boot-starter</artifactId>
                 <version>1.2.0</version>
             </dependency>
