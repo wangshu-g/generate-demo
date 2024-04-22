@@ -40,11 +40,11 @@
     </collection>
   </resultMap>
  
-  <insert id="_save" parameterType="Map" useGeneratedKeys="true" keyProperty="id">
+  <insert id="_save" parameterType="Map">
 insert into article(`id`,`createdAt`,`updatedAt`,`deletedAt`,`title`,`desc`,`detail`,`status`,`uid`,`groupId`) values (#{id},#{createdAt},#{updatedAt},#{deletedAt},#{title},#{desc},#{detail},#{status},#{uid},#{groupId});
 </insert>
  
-  <insert id="_batchSave" parameterType="List" useGeneratedKeys="true" keyProperty="id">
+  <insert id="_batchSave" parameterType="List">
 insert into article(`id`,`createdAt`,`updatedAt`,`deletedAt`,`title`,`desc`,`detail`,`status`,`uid`,`groupId`) values
  
     <foreach collection="list" item="item" index="index" separator=",">(#{item.id},#{item.createdAt},#{item.updatedAt},#{item.deletedAt},#{item.title},#{item.desc},#{item.detail},#{item.status},#{item.uid},#{item.groupId})</foreach>

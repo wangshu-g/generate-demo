@@ -34,6 +34,7 @@
         <kotlin.version>1.9.20</kotlin.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <spring-boot.version>3.2.3</spring-boot.version>
+        <spring-framework.version>6.1.5</spring-framework.version>
         <mysql.version>8.3.0</mysql.version>
         <mybatis-starter.version>3.0.3</mybatis-starter.version>
         <mybatis-spring.version>3.0.3</mybatis-spring.version>

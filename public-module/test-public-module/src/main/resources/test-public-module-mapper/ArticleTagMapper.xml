@@ -11,11 +11,11 @@
     <result column="articleId" jdbcType="VARCHAR" property="articleId"/>
   </resultMap>
  
-  <insert id="_save" parameterType="Map" useGeneratedKeys="true" keyProperty="id">
+  <insert id="_save" parameterType="Map">
 insert into articleTag(`id`,`createdAt`,`updatedAt`,`deletedAt`,`tagName`,`articleId`) values (#{id},#{createdAt},#{updatedAt},#{deletedAt},#{tagName},#{articleId});
 </insert>
  
-  <insert id="_batchSave" parameterType="List" useGeneratedKeys="true" keyProperty="id">
+  <insert id="_batchSave" parameterType="List">
 insert into articleTag(`id`,`createdAt`,`updatedAt`,`deletedAt`,`tagName`,`articleId`) values
  
     <foreach collection="list" item="item" index="index" separator=",">(#{item.id},#{item.createdAt},#{item.updatedAt},#{item.deletedAt},#{item.tagName},#{item.articleId})</foreach>

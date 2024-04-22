@@ -11,11 +11,11 @@
     <result column="readMe" jdbcType="VARCHAR" property="readMe"/>
   </resultMap>
  
-  <insert id="_save" parameterType="Map" useGeneratedKeys="true" keyProperty="id">
+  <insert id="_save" parameterType="Map">
 insert into user(`id`,`createdAt`,`updatedAt`,`deletedAt`,`name`,`readMe`) values (#{id},#{createdAt},#{updatedAt},#{deletedAt},#{name},#{readMe});
 </insert>
  
-  <insert id="_batchSave" parameterType="List" useGeneratedKeys="true" keyProperty="id">
+  <insert id="_batchSave" parameterType="List">
 insert into user(`id`,`createdAt`,`updatedAt`,`deletedAt`,`name`,`readMe`) values
  
     <foreach collection="list" item="item" index="index" separator=",">(#{item.id},#{item.createdAt},#{item.updatedAt},#{item.deletedAt},#{item.name},#{item.readMe})</foreach>

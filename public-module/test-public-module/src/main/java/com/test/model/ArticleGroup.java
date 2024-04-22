@@ -2,7 +2,7 @@ package com.test.model;
 
 import com.ws.annotation.Column;
 import com.ws.annotation.Data;
-import com.ws.annotation.JOIN;
+import com.ws.annotation.Join;
 import com.ws.base.model.BaseModel;
 import com.ws.enu.Condition;
 import lombok.EqualsAndHashCode;
@@ -37,7 +37,7 @@ public class ArticleGroup extends BaseModel {
     @Column(title = "创建者", conditions = {Condition.all})
     private String uid;
 
-    @JOIN(rightJoinField = "uid")
+    @Join(rightJoinField = "uid")
     private User user;
 
 }

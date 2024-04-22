@@ -2,7 +2,7 @@ package com.test.model;
 
 import com.ws.annotation.Column;
 import com.ws.annotation.Data;
-import com.ws.annotation.JOIN;
+import com.ws.annotation.Join;
 import com.ws.base.model.BaseModel;
 import com.ws.enu.Condition;
 import lombok.EqualsAndHashCode;
@@ -44,7 +44,7 @@ public class Article extends BaseModel {
     @Column(conditions = {Condition.all}, title = "发布者")
     private String uid;
 
-    @JOIN(rightJoinField = "uid")
+    @Join(rightJoinField = "uid")
     private User user;
 
     @Column(conditions = {Condition.all}, title = "文章所属分组")
@@ -55,18 +55,18 @@ public class Article extends BaseModel {
      * 正常的一对一场景
      * </p>
      **/
-    @JOIN(rightJoinField = "groupId")
+    @Join(rightJoinField = "groupId")
     private ArticleGroup articleGroup;
 
     /**
      * <p>
-     * 诸如此类场景映射，能用，但是尽量不要使用
+     * 此类场景，尽量不要使用，会引起数据条数带来的分页等问题
      * </p>
      * <p>
      * getList 会忽略此类关联定义
      * </p>
      **/
-    @JOIN(leftJoinField = "articleId")
+    @Join(leftJoinField = "articleId")
     private List<ArticleTag> articleTagList;
 
 }
