@@ -1,19 +1,16 @@
 package com.test.controller;
 
+import com.ws.base.controller.AbstractBaseDataControllerResultTableBody;
 import com.test.model.Article;
 import com.test.service.ArticleService;
-import com.ws.base.controller.AbstractBaseDataControllerResultBody;
 import jakarta.annotation.Resource;
-import org.springframework.transaction.annotation.Transactional;
+import java.lang.Override;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Transactional(
-    rollbackFor = {Exception.class}
-)
 @RestController
 @RequestMapping("/Article")
-public class ArticleController extends AbstractBaseDataControllerResultBody<ArticleService, Article> {
+public class ArticleController extends AbstractBaseDataControllerResultTableBody<ArticleService, Article> {
   @Resource
   public ArticleService articleService;
 

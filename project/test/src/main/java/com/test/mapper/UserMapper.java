@@ -1,7 +1,7 @@
 package com.test.mapper;
 
-import com.test.model.User;
 import com.ws.base.mapper.BaseDataMapper;
+import com.test.model.User;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

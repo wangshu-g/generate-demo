@@ -1,8 +1,8 @@
 package com.test.config.request;
 
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.alibaba.fastjson.support.config.FastJsonConfig;
-import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.alibaba.fastjson2.JSONWriter;
+import com.alibaba.fastjson2.support.config.FastJsonConfig;
+import com.alibaba.fastjson2.support.spring6.http.converter.FastJsonHttpMessageConverter;
 import com.test.config.request.inteceptor.LogInterceptor;
 import com.ws.filter.FastJsonValueFilter;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +17,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -27,29 +28,28 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Bean
     public FastJsonConfig getFastJsonConfig() {
         FastJsonConfig fastJsonConfig = new FastJsonConfig();
-        fastJsonConfig.setSerializerFeatures(SerializerFeature.WriteMapNullValue);
-        fastJsonConfig.setSerializerFeatures(SerializerFeature.WriteNullStringAsEmpty);
-        fastJsonConfig.setSerializerFeatures(SerializerFeature.WriteNullListAsEmpty);
-        fastJsonConfig.setSerializerFeatures(SerializerFeature.WriteNullBooleanAsFalse);
-        fastJsonConfig.setSerializerFeatures(SerializerFeature.WriteNullNumberAsZero);
-        fastJsonConfig.setSerializerFeatures(SerializerFeature.DisableCircularReferenceDetect);
-        fastJsonConfig.setSerializerFeatures(SerializerFeature.WriteDateUseDateFormat);
-        fastJsonConfig.setSerializeFilters(new FastJsonValueFilter());
+        fastJsonConfig.setWriterFeatures(JSONWriter.Feature.WriteMapNullValue);
+        fastJsonConfig.setWriterFeatures(JSONWriter.Feature.WriteNullStringAsEmpty);
+        fastJsonConfig.setWriterFeatures(JSONWriter.Feature.WriteNullListAsEmpty);
+        fastJsonConfig.setWriterFeatures(JSONWriter.Feature.WriteNullBooleanAsFalse);
+        fastJsonConfig.setWriterFeatures(JSONWriter.Feature.WriteNullNumberAsZero);
+        fastJsonConfig.setWriterFilters(new FastJsonValueFilter());
         return fastJsonConfig;
     }
 
+    @Bean
+    public LogInterceptor getLogInterceptor() {
+        return new LogInterceptor();
+    }
+
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LogInterceptor());
+    public void addInterceptors(@NotNull InterceptorRegistry registry) {
+        registry.addInterceptor(getLogInterceptor());
     }
 
     @Override
     public void addCorsMappings(@NotNull CorsRegistry corsRegistry) {
-        corsRegistry.addMapping("/**")
-                .allowCredentials(true)
-                .allowedOriginPatterns("*")
-                .allowedMethods("*")
-                .allowedHeaders("*");
+        corsRegistry.addMapping("/**").allowCredentials(true).allowedOriginPatterns("*").allowedMethods("*").allowedHeaders("*");
     }
 
     @Override
@@ -61,13 +61,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void configureMessageConverters(@NotNull List<HttpMessageConverter<?>> converters) {
         converters.removeIf(converter -> converter instanceof MappingJackson2HttpMessageConverter);
         FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
-        fastJsonHttpMessageConverter.setSupportedMediaTypes(List.of(
-                MediaType.APPLICATION_JSON,
-                MediaType.IMAGE_GIF,
-                MediaType.IMAGE_JPEG,
-                MediaType.IMAGE_PNG,
-                MediaType.TEXT_HTML
-        ));
+        List<MediaType> supportedMediaTypes = new ArrayList<>();
+        supportedMediaTypes.add(MediaType.APPLICATION_JSON);
+        supportedMediaTypes.add(MediaType.IMAGE_GIF);
+        supportedMediaTypes.add(MediaType.IMAGE_JPEG);
+        supportedMediaTypes.add(MediaType.IMAGE_PNG);
+        supportedMediaTypes.add(MediaType.TEXT_HTML);
+        fastJsonHttpMessageConverter.setSupportedMediaTypes(supportedMediaTypes);
         fastJsonHttpMessageConverter.setFastJsonConfig(getFastJsonConfig());
         log.info("注册fastJson消息转换器: {}", FastJsonHttpMessageConverter.class.getTypeName());
         converters.add(fastJsonHttpMessageConverter);
