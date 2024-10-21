@@ -1,9 +1,9 @@
 package com.test.model;
 
-import com.ws.annotation.Column;
-import com.ws.annotation.Data;
-import com.ws.base.model.BaseModel;
-import com.ws.enu.Condition;
+import com.wangshu.annotation.Column;
+import com.wangshu.annotation.Data;
+import com.wangshu.base.model.BaseModel;
+import com.wangshu.enu.Condition;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 

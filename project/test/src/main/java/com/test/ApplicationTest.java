@@ -1,6 +1,6 @@
 package com.test;
 
-import com.ws.annotation.EnableConfig;
+import com.wangshu.annotation.EnableConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.CommandLineRunner;

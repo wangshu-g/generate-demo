@@ -29,7 +29,7 @@ mybatis:
     call-setters-on-nulls: true
   mapper-locations:
     - classpath:mapper/*.xml
-    - classpath:test-public-module-mapper/*.xml
+    - classpath:test-mapper/*.xml
 
 logging:
   level:

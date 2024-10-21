@@ -4,7 +4,7 @@ import com.alibaba.fastjson2.JSONWriter;
 import com.alibaba.fastjson2.support.config.FastJsonConfig;
 import com.alibaba.fastjson2.support.spring6.http.converter.FastJsonHttpMessageConverter;
 import com.test.config.request.inteceptor.LogInterceptor;
-import com.ws.filter.FastJsonValueFilter;
+import com.wangshu.filter.FastJsonValueFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -45,11 +44,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(@NotNull InterceptorRegistry registry) {
         registry.addInterceptor(getLogInterceptor());
-    }
-
-    @Override
-    public void addCorsMappings(@NotNull CorsRegistry corsRegistry) {
-        corsRegistry.addMapping("/**").allowCredentials(true).allowedOriginPatterns("*").allowedMethods("*").allowedHeaders("*");
     }
 
     @Override

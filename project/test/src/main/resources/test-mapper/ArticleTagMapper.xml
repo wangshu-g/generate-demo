@@ -709,7 +709,8 @@ or `articleTag`.`createdAt` in
     </where>
  
     <if test="orderColumn != null">order by `${orderColumn}` ${order}</if>
-limit ${pageIndex},${pageSize}
+ 
+    <if test="pageIndex != null and pageSize != null">limit #{pageIndex},#{pageSize}</if>
   </select>
  
   <select id="_getNestList" parameterType="Map" resultType="com.test.model.ArticleTag" resultMap="ArticleTag">
@@ -884,7 +885,8 @@ or `articleTag`.`createdAt` in
     </where>
  
     <if test="orderColumn != null">order by `${orderColumn}` ${order}</if>
-limit ${pageIndex},${pageSize}
+ 
+    <if test="pageIndex != null and pageSize != null">limit #{pageIndex},#{pageSize}</if>
   </select>
  
   <select id="_getTotal" parameterType="Map" resultType="Integer">
